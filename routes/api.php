@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 
+use App\Estudi;
+use App\Dia;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +16,26 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('/dia/{dia}', function (Dia $dia) {
+        return $dia->load('cites');
+    });
+});
+
+Route::get('/estudis', function() {
+    return Estudi::all();
+});
+
+Route::get('/estudi/{estudi}', function(Estudi $estudi) {
+    return $estudi->load('dies');
+});
+
+Route::get('/dia/{dia}/buides', function (Dia $dia) {
+    return $dia->load(['cites' => function($query) {
+      $query->where('estat', 'buit');
+    }]);
 });

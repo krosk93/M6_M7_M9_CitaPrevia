@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Cita;
+use Illuminate\Support\Facades\DB;
 
 class CitaController extends Controller
 {
@@ -34,7 +36,13 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!Cita::where('email', $request->input('email'))->exists()) {
+            $cita = Cita::find($request->input('cita'));
+            $cita->email = $request->input('email');
+            $cita->estat = 'ple';
+            $cita->save();
+        }
+        return redirect()->route('cita.showByEmail', ['email' => md5($request->input('email'))]);
     }
 
     /**
@@ -45,7 +53,28 @@ class CitaController extends Controller
      */
     public function show($id)
     {
-        //
+
+    }
+
+    public function showByEmail($email)
+    {
+        if(Cita::where(DB::raw('md5(email)'), $email)->exists()) {
+          return view('cita', ['cita' => Cita::where(DB::raw('md5(email)'), $email)->first()]);
+        } else {
+          return redirect()->route('index')->with('buscarStatus', 'Email no trobat!');
+        }
+
+    }
+
+    public function searchEmail(Request $request)
+    {
+        $request->validate([
+          'email' => 'required|email'
+        ]);
+
+        $email = $request->input('email');
+        return redirect()->route('cita.showByEmail', ['email' => md5($email)]);
+
     }
 
     /**
@@ -66,7 +95,7 @@ class CitaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cita $cita)
     {
         //
     }
@@ -79,6 +108,10 @@ class CitaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cita = Cita::findOrFail($id);
+        $cita->estat = 'buit';
+        $cita->email = NULL;
+        $cita->save();
+        return redirect()->route('index')->with('status', 'Cita anulada');
     }
 }

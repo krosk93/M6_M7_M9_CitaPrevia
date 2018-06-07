@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('index');
+
+Route::resource('/cita', 'CitaController');
+
+Route::get('/cita/consulta/{email}', 'CitaController@showByEmail')->name('cita.showByEmail');
+Route::post('/cita/consulta', 'CitaController@searchEmail')->name('cita.searchEmail');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function() {
+    Route::get('/home', 'HomeController@index')->name('home');
+});
