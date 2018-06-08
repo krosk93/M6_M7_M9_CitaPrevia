@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => {
           data.email = response.data.email;
           data.estat = response.data.estat;
-          table.row($(this).parents('tr')).data(data).draw();
+          table.row($(this).parents('tr')).data(data).draw(false);
         })
         .catch(e => {
           if(!!e && !!e.response && !!e.response.data && !!e.response.data.message) {

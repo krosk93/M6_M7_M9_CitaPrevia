@@ -18,46 +18,16 @@ use App\Cita;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
 
-    Route::get('/dia/{dia}', function (Dia $dia) {
-        return $dia->load('cites');
-    });
+    Route::get('/cites', 'API\CitaController@index');
 
-    Route::get('/cites', function() {
-        return Cita::with('dia.estudi')->get();
-    });
+    Route::get('/cita/{cita}/block', 'API\CitaController@block');
 
-    Route::get('/cita/{cita}/block', function(Cita $cita) {
-        if($cita->estat === 'ple') {
-          abort(500, $cita->estat);
-        } else {
-          $cita->estat = 'bloquejat';
-          $cita->save();
-          return $cita;
-        }
-    });
-
-    Route::get('/cita/{cita}/cancel', function(Cita $cita) {
-        $cita->email = '';
-        $cita->estat = 'buit';
-        $cita->save();
-        return $cita;
-    });
+    Route::get('/cita/{cita}/cancel', 'API\CitaController@cancel');
 });
 
-Route::get('/estudis', function() {
-    return Estudi::all();
-});
+Route::get('/estudis', 'API\EstudiController@index');
 
-Route::get('/estudi/{estudi}', function(Estudi $estudi) {
-    return $estudi->load('dies');
-});
+Route::get('/estudi/{estudi}', 'API\EstudiController@show');
 
-Route::get('/dia/{dia}/buides', function (Dia $dia) {
-    return $dia->load(['cites' => function($query) {
-      $query->where('estat', 'buit');
-    }]);
-});
+Route::get('/dia/{dia}/buides', 'API\DiaController@showWithEmpty');
