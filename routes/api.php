@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 
 use App\Estudi;
 use App\Dia;
+use App\Cita;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/dia/{dia}', function (Dia $dia) {
         return $dia->load('cites');
+    });
+
+    Route::get('/cites', function() {
+        return Cita::with('dia.estudi')->get();
     });
 });
 

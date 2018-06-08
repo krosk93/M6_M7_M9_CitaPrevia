@@ -36,13 +36,18 @@ class CitaController extends Controller
      */
     public function store(Request $request)
     {
+        $status = NULL;
         if(!Cita::where('email', $request->input('email'))->exists()) {
             $cita = Cita::find($request->input('cita'));
             $cita->email = $request->input('email');
             $cita->estat = 'ple';
             $cita->save();
+        } else {
+            $status = 'Ja tenies una cita. Si vols canviar-la pots anular-la.';
         }
-        return redirect()->route('cita.showByEmail', ['email' => md5($request->input('email'))]);
+        return redirect()
+          ->route('cita.showByEmail', ['email' => md5($request->input('email'))])
+          ->with('status', $status);
     }
 
     /**
