@@ -29,7 +29,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        Inici
                     </a>
                 </div>
 
@@ -43,8 +43,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">Iniciar sessió</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
@@ -53,6 +52,7 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="{{ route('admin') }}">Panell Administració</a>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -72,6 +72,19 @@
         </nav>
 
         @yield('content')
+
+        <div class="well well-lg">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-6">
+                <img class="img-responsive" src="http://insbaixcamp.org/images/logos/fsi_mecd_2016.png" />
+              </div>
+              <div class="col-xs-6">
+                <img class="img-responsive" src="http://insbaixcamp.org/images/logos/ensenyament_h3.jpg" />
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
     <!-- Scripts -->

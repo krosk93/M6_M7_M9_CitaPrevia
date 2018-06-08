@@ -24,5 +24,5 @@ Route::middleware('auth')->group(function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/admin', function() {
       return view('admin');
-    });
+    })->name('admin');
 });

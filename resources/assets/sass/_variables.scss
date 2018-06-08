@@ -1,6 +1,6 @@
 
 // Body
-$body-bg: #f5f8fa;
+$body-bg: #a0ffa0;
 
 // Borders
 $laravel-border-color: darken($body-bg, 10%);
@@ -24,7 +24,7 @@ $line-height-base: 1.6;
 $text-color: #636b6f;
 
 // Navbar
-$navbar-default-bg: #fff;
+$navbar-default-bg: lighten($body-bg, 15%);
 
 // Buttons
 $btn-default-color: $text-color;
@@ -36,3 +36,6 @@ $input-color-placeholder: lighten($text-color, 30%);
 
 // Panels
 $panel-default-heading-bg: #fff;
+
+// Wells
+$well-bg: #fff;

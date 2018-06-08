@@ -14,7 +14,7 @@ require('./bootstrap');
  */
 
 require('./components/Example');
-require( 'datatables.net-bs' );
+require('datatables.net-bs');
 require('datatables.net-bs/css/dataTables.bootstrap.css')
 
 window.dt_lang_catalan = {

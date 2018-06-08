@@ -29,6 +29,23 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/cites', function() {
         return Cita::with('dia.estudi')->get();
     });
+
+    Route::get('/cita/{cita}/block', function(Cita $cita) {
+        if($cita->estat === 'ple') {
+          abort(500, $cita->estat);
+        } else {
+          $cita->estat = 'bloquejat';
+          $cita->save();
+          return $cita;
+        }
+    });
+
+    Route::get('/cita/{cita}/cancel', function(Cita $cita) {
+        $cita->email = '';
+        $cita->estat = 'buit';
+        $cita->save();
+        return $cita;
+    });
 });
 
 Route::get('/estudis', function() {
